@@ -1,36 +1,113 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Face Detection and Photo Analysis API
 
-## Getting Started
+This project provides a backend API for analyzing profile photos using the Google Cloud Vision API. The API can detect faces in photos and perform SafeSearch analysis to identify potentially inappropriate content. It is built with Next.js using the App Router and adheres to modern best practices for server-side functionality.
+Features
 
-First, run the development server:
+    Face Detection: Identifies faces in uploaded profile photos and provides detailed annotations.
+    SafeSearch Detection: Analyzes photos for inappropriate content such as adult, violent, or medical imagery.
+    Batch Processing: Supports analyzing multiple user photos in a single request.
+    Error Handling: Provides meaningful error messages for invalid input or processing failures.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Technologies Used
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+    Next.js: Modern framework for server-side rendering and API routes.
+    Google Cloud Vision API: For advanced image analysis and detection capabilities.
+    TypeScript: Ensures type safety and improves code maintainability.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Prerequisites
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Before running the project, ensure you have the following:
 
-## Learn More
+    - Google Cloud Vision API Key:
+    - Create a project on the Google Cloud Console.
+    - Enable the Vision API.
+    - Download the service account key JSON file.
+    - Set the JSON file's content as the GOOGLE_APPLICATION_CREDENTIALS_JSON environment variable.
 
-To learn more about Next.js, take a look at the following resources:
+    - Node.js:
+        - Install Node.js (version 18 or later is recommended).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Installation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+    Clone the repository:
 
-## Deploy on Vercel
+git clone https://github.com/your-username/face-detection-api.git
+cd face-detection-api
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Install dependencies:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+npm install
+
+## Set up environment variables:
+
+    Create a .env.local file in the root directory.
+    Add the following:
+
+    GOOGLE_APPLICATION_CREDENTIALS_JSON='YOUR_CREDENTIALS_JSON_CONTENT'
+
+## Start the development server:
+
+    npm run dev
+
+    Open the app:
+        Visit http://localhost:3000 in your browser.
+
+## API Endpoints
+### Analyze Photos
+
+### POST /api/analyzePhotos
+Request Body
+
+``` {
+  "users": [
+    {
+      "userid": "user1",
+      "profilephoto": "https://example.com/photo1.jpg"
+    },
+    {
+      "userid": "user2",
+      "profilephoto": "https://example.com/photo2.jpg"
+    }
+  ]
+} ``` 
+
+### Response
+
+``` {
+  "success": true,
+  "data": [
+    {
+      "userid": "user1",
+      "results": {
+        "faces": [/* Face annotations */],
+        "safeSearch": {/* SafeSearch results */}
+      }
+    },
+    {
+      "userid": "user2",
+      "results": {
+        "error": "No faces detected in the photo."
+      }
+    }
+  ]
+} ```
+
+## Error Codes
+
+    - 400: Invalid input or missing data.
+    - 405: Method not allowed.
+    - 500: Internal server error.
+
+## Deployment
+
+To deploy the project, you can use any platform that supports Node.js and Next.js, such as:
+
+    Vercel (recommended)
+    AWS
+    Google Cloud
+    Heroku
+
+
+## License
+
+This project is licensed under the MIT License.
